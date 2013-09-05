@@ -137,8 +137,8 @@ class GoogleResponse(JsonResponse):
         """
         Determine if the request was successful.
 
-        For the Google response class, tag all responses as successful and raise
-        appropriate Exceptions from parse_body.
+        For the Google response class, tag all responses as successful and
+        raise appropriate Exceptions from parse_body.
 
         @return: C{True}
         """
@@ -157,9 +157,9 @@ class GoogleResponse(JsonResponse):
         @rtype:   C{tuple} of C{str} or C{int}
         """
         if 'errors' in body['error']:
-           err = body['error']['errors'][0]
+            err = body['error']['errors'][0]
         else:
-           err = body['error']
+            err = body['error']
 
         code = err.get('code')
         message = err.get('message')
@@ -180,8 +180,8 @@ class GoogleResponse(JsonResponse):
             body = json.loads(self.body)
         except:
             # If there is both a JSON parsing error and an unsuccessful http
-            # response (like a 404), we want to raise the http error and not the
-            # JSON one, so don't raise JsonParseError here.
+            # response (like a 404), we want to raise the http error and not
+            # the JSON one, so don't raise JsonParseError here.
             body = self.body
             json_error = True
 
@@ -202,9 +202,7 @@ class GoogleResponse(JsonResponse):
                 return body
 
         elif self.status == httplib.NOT_FOUND:
-            if json_error:
-                raise ResourceNotFoundError(body, self.status, None)
-            elif 'error' in body:
+            if (not json_error) and ('error' in body):
                 (code, message) = self._get_error(body)
             else:
                 message = body

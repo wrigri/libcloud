@@ -1948,7 +1948,8 @@ class GCENodeDriver(NodeDriver):
             request = '/zones/%s/instances/%s' % (node.extra['zone'].name,
                                                   node.name)
             try:
-                response = self.connection.request(request, method='DELETE').object
+                response = self.connection.request(request,
+                                                   method='DELETE').object
             except:
                 e = sys.exc_info()[1]
                 response = None
