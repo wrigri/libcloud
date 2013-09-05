@@ -554,15 +554,6 @@ class GoogleBaseConnection(ConnectionUserAndKey, PollingConnection):
                     tries = tries + 1
                 else:
                     raise e
-            # Also, catch 404 errors and raise a ResourceNotFoundError
-            #except Exception:
-                #e = sys.exc_info()[1]
-                #print e.args
-                #if (('error' in e.args[0]) and ('code' in e.args[0]['error'])
-                        #and (e.args[0]['error']['code'] == 404)):
-                    #raise ResourceNotFoundError(e.args[0], 404)
-                #else:
-                    #raise e
         # One more time, then give up.
         return super(GoogleBaseConnecion, self).request(*args, **kwargs)
 
