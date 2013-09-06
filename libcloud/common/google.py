@@ -210,7 +210,12 @@ class GoogleResponse(JsonResponse):
             raise ResourceNotFoundError(message, self.status, code)
 
         else:
-            raise GoogleBaseError(body, self.status, None)
+            if (not json_error) and ('error' in body):
+                (code, message) = self._get_error(body)
+            else:
+                message = body
+                code = None
+            raise GoogleBaseError(message, self.status, code)
 
 
 class GoogleBaseDriver(object):
